@@ -1,7 +1,9 @@
 import discord
+from discord.ext import commands
 import os
 from dotenv import load_dotenv
-from time import sleep
+from asyncio import sleep
+
 
 load_dotenv()
 
@@ -9,32 +11,28 @@ load_dotenv()
 TOKEN = os.environ['TOKEN']
 CHANNEL_ID = int(os.environ['CHANNEL_ID'])
 
-client = discord.Client(intents=discord.Intents.all())
+# client = discord.Client(intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="$", intents=discord.Intents.all())
 
-@client.event
+@bot.event
 async def on_ready():
-    print('Hello')
+    print('Hello World!!!')
 
-@client.event
-async def on_message(message):
-    if message.author.bot:
-        return
 
-    if message.content == '/hello':
-        await message.channel.send('Hello World!')
+@bot.command()
+async def test(ctx, arg):
+    await ctx.send(arg)
 
-    if message.content == '/start':
-        #もくもく会の開始時に実行
-        #2時間をカウントする
-        mokumoku = client.get_channel(CHANNEL_ID)
-        mokumoku_time = 60 * 60 * 2
+@bot.command()
+async def start(ctx, hour):
+    #intは時間が入力される想定
+    mokumoku_time = int(hour) * 60 * 60
+    await ctx.send("もくもく開始！今日もがんばろう！")
+    await sleep(mokumoku_time)
+    await ctx.send(str(hour) + "時間経過。よくがんばった！")
 
-        await mokumoku.send('もくもく開始！今日もがんばろう！')
-        sleep(mokumoku_time)
-        hour = mokumoku_time / 60 / 60
-        await mokumoku.send(str(hour) + '時間経過。よくがんばった！')
 
-client.run(TOKEN)
+bot.run(TOKEN)
 
 
 
