@@ -27,13 +27,10 @@ async def on_message(message):
         #もくもく会の開始時に実行
         #2時間をカウントする
         mokumoku = client.get_channel(CHANNEL_ID)
-        mokumoku_time = 60 * 60 * 1
+        mokumoku_time = 60 * 60 * 2
 
         await mokumoku.send('もくもく開始！今日もがんばろう！')
-        for i in range(0,mokumoku_time):
-            sleep(1)
-            
-
+        sleep(mokumoku_time)
         hour = mokumoku_time / 60 / 60
         await mokumoku.send(str(hour) + '時間経過。よくがんばった！')
 
