@@ -9,8 +9,6 @@ load_dotenv()
 TOKEN = os.environ['TOKEN']
 CHANNEL_ID = int(os.environ['CHANNEL_ID'])
 
-
-
 client = discord.Client(intents=discord.Intents.all())
 
 @client.event
@@ -29,11 +27,12 @@ async def on_message(message):
         #もくもく会の開始時に実行
         #2時間をカウントする
         mokumoku = client.get_channel(CHANNEL_ID)
-        mokumoku_time = 10
+        mokumoku_time = 60 * 60 * 1
 
         await mokumoku.send('もくもく開始！今日もがんばろう！')
         for i in range(0,mokumoku_time):
             sleep(1)
+            
 
         hour = mokumoku_time / 60 / 60
         await mokumoku.send(str(hour) + '時間経過。よくがんばった！')
